@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasan Hisab Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            font-size: 32px;
+        }
+        p.subtitle {
+            color: #7f8c8d;
+            margin: 0;
+            font-size: 14px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        .btn-share {
+            background-color: #16a085;
+            color: white;
+        }
+        .btn-share:hover {
+            background-color: #138d75;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 160, 133, 0.3);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px solid #bdc3c7;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+        .card {
+            background: linear-gradient(135deg, #eef7fe 0%, #e0f7ff 100%);
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 13px;
+            color: #555;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 8px;
+        }
+        .card.warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe8a8 100%);
+            border-left-color: #ffc107;
+        }
+        .card.warning .card-value {
+            color: #856404;
+        }
+        .card.success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: #28a745;
+        }
+        .card.success .card-value {
+            color: #155724;
+        }
+        .validation-message {
+            font-size: 13px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .validation-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .validation-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 25px 0;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .link-section {
+            background-color: #f0f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #d0d8ff;
+        }
+        .link-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 13px;
+            font-family: monospace;
+            word-break: break-all;
+            background-color: #ffffff;
+            color: #667eea;
+        }
+        .link-label {
+            font-size: 12px;
+            color: #555;
+            margin-top: 8px;
+            display: block;
+        }
+        .copy-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .copy-btn:hover {
+            background-color: #5568d3;
+        }
+        .copy-btn.copied {
+            background-color: #27ae60;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📊 Rasan Hisab</h1>
+        <p class="subtitle">Apna Hisab Dekhen - Check Your Expense Details</p>
+    </div>
+
+    <div class="button-group">
+        <button class="btn btn-primary" onclick="showSelectMode()">📋 View Details</button>
+        <button class="btn btn-share" onclick="showShareMode()">🔗 Share Link</button>
+    </div>
+
+    <!-- SELECT MODE -->
+    <div id="selectMode">
+        <label for="nameSelect">Apna Naam Chunen (Select Your Name):</label>
+        <select id="nameSelect" onchange="showUserData()">
+            <option value="">-- Naam Select Karein --</option>
+        </select>
+
+        <div id="resultArea" style="display: none;">
+            <div class="card" id="totalCard">
+                <p class="card-title" id="totalLabel">Kul Total (Total Amount)</p>
+                <div class="card-value" id="totalAmount">₹ 0</div>
+                <div class="validation-message" id="validationMessage"></div>
+            </div>
+
+            <hr>
+
+            <h3>📋 Hisab Ki Full Detail:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody id="detailTableBody">
+                </tbody>
+            </table>
+
+            <div class="link-section">
+                <strong>📱 Apna Link Share Karein:</strong>
+                <div class="link-input" id="personalLink"></div>
+                <button class="copy-btn" onclick="copyLink()">📋 Link Copy Karein</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARE MODE -->
+    <div id="shareMode" class="hidden">
+        <h3>🔗 Har Kisi Ka Personal Link</h3>
+        <p style="color: #7f8c8d; font-size: 14px;">Neeche diye gaye links ko copy karke WhatsApp par bhej sakte hain:</p>
+        
+        <div id="linksContainer" style="margin-top: 20px;">
+        </div>
+    </div>
+</div>
+
+<script>
+    const data = [
+        { Name: "Shivam 1", "Item 1": 1820.6, "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 7": 175.0, "Item 9": 58.0, "Item 11": 592.0, Total: 3597.6 },
+        { Name: "Shivam 2", "Item 1": 1820.6, "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 7": 175.0, "Item 9": 158.0, "Item 11": 592.0, Total: 3697.6 },
+        { Name: "vivek", "Item 1": 1820.6, "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 7": 175.0, "Item 9": 158.0, "Item 11": 592.0, Total: 3697.6 },
+        { Name: "Prakash", "Item 1": 1820.6, "Item 6": 250.0, "Item 7": 128.0, "Item 8": -1010.0, "Item 11": 592.0, Total: 1188.6 },
+        { Name: "Abhishek", "Item 1": 1820.6, "Item 6": 250.0, "Item 7": 128.0, "Item 9": 318.0, "Item 11": 592.0, Total: 3108.6 },
+        { Name: "Suraj 2", "Item 1": 1820.6, "Item 6": 250.0, "Item 7": 128.0, "Item 9": 318.0, "Item 11": 592.0, Total: 3108.6 },
+        { Name: "Ashik", "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 7": 41.0, "Item 11": 592.0, Total: 1585.0 },
+        { Name: "Suraj 1", "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 7": 41.0, "Item 8": -360.0, "Item 11": 592.0, Total: 1225.0 },
+        { Name: "Vishal", "Item 2": 313.0, "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 11": 592.0, Total: 1544.0 },
+        { Name: "aditya", "Item 3": 60.2, "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 10": 502.0, "Item 11": 592.0, Total: 1733.0 },
+        { Name: "Vishal patel", "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 11": 592.0, Total: 1170.8 },
+        { Name: "gopal", "Item 4": 240.0, "Item 5": 88.8, "Item 6": 250.0, "Item 11": 592.0, Total: 1170.8 }
+    ];
+
+    // Get current page URL
+    const getCurrentPageURL = () => {
+        return window.location.href.split('?')[0];
+    };
+
+    // Generate personal link for a user
+    const generatePersonalLink = (userName) => {
+        const baseURL = getCurrentPageURL();
+        return `${baseURL}?name=${encodeURIComponent(userName)}`;
+    };
+
+    // Calculate total from items
+    const calculateTotal = (user) => {
+        return Object.keys(user)
+            .filter(key => key !== 'Name' && key !== 'Total')
+            .reduce((sum, key) => sum + (user[key] || 0), 0)
+            .toFixed(2);
+    };
+
+    // Validate if stored total matches calculated total
+    const validateTotal = (user) => {
+        const calculated = parseFloat(calculateTotal(user));
+        const stored = parseFloat(user.Total);
+        const tolerance = 0.01;
+        return Math.abs(calculated - stored) <= tolerance;
+    };
+
+    // Populate Dropdown
+    const selectElem = document.getElementById('nameSelect');
+    data.forEach(user => {
+        let opt = document.createElement('option');
+        opt.value = user.Name;
+        opt.innerHTML = user.Name;
+        selectElem.appendChild(opt);
+    });
+
+    // Check if URL has name parameter and auto-select
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramName = urlParams.get('name');
+    if (paramName && data.some(u => u.Name === paramName)) {
+        selectElem.value = paramName;
+        showUserData();
+    }
+
+    function showSelectMode() {
+        document.getElementById('selectMode').classList.remove('hidden');
+        document.getElementById('shareMode').classList.add('hidden');
+    }
+
+    function showShareMode() {
+        document.getElementById('selectMode').classList.add('hidden');
+        document.getElementById('shareMode').classList.remove('hidden');
+        generateAllLinks();
+    }
+
+    function generateAllLinks() {
+        const container = document.getElementById('linksContainer');
+        container.innerHTML = '';
+
+        data.forEach(user => {
+            const link = generatePersonalLink(user.Name);
+            const linkDiv = document.createElement('div');
+            linkDiv.style.marginBottom = '15px';
+            linkDiv.style.padding = '12px';
+            linkDiv.style.backgroundColor = '#f8f9fa';
+            linkDiv.style.borderRadius = '6px';
+            linkDiv.innerHTML = `
+                <strong style="color: #2c3e50;">${user.Name}</strong> (₹ ${user.Total})
+                <div style="margin-top: 8px; padding: 8px; background-color: #ffffff; border-radius: 4px; border: 1px solid #ddd; word-break: break-all; font-size: 12px; color: #667eea; font-family: monospace;">
+                    ${link}
+                </div>
+                <button onclick="copyToClipboard('${link}')" style="width: 100%; padding: 8px; margin-top: 8px; background-color: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                    📋 Copy Link
+                </button>
+            `;
+            container.appendChild(linkDiv);
+        });
+    }
+
+    function showUserData() {
+        const selectedName = selectElem.value;
+        const resultArea = document.getElementById('resultArea');
+        const tableBody = document.getElementById('detailTableBody');
+        const validationMessage = document.getElementById('validationMessage');
+        const totalCard = document.getElementById('totalCard');
+        
+        if (!selectedName) {
+            resultArea.style.display = 'none';
+            return;
+        }
+
+        const user = data.find(item => item.Name === selectedName);
+        
+        if (user) {
+            const calculatedTotal = calculateTotal(user);
+            const isValid = validateTotal(user);
+
+            document.getElementById('totalLabel').innerText = `💰 ${user.Name} Ka Kul Total`;
+            document.getElementById('totalAmount').innerText = `₹ ${user.Total}`;
+
+            // Personal Link
+            document.getElementById('personalLink').innerText = generatePersonalLink(user.Name);
+
+            // Show validation message
+            if (isValid) {
+                validationMessage.innerHTML = '✅ Hisab Sahi Hai (Calculation Correct)';
+                validationMessage.className = 'validation-message validation-success';
+                totalCard.classList.remove('warning');
+                totalCard.classList.add('success');
+            } else {
+                validationMessage.innerHTML = `⚠️ Hisab Galat! (Calculation Error)<br>Calculated: ₹ ${calculatedTotal} | Stored: ₹ ${user.Total}`;
+                validationMessage.className = 'validation-message validation-error';
+                totalCard.classList.add('warning');
+                totalCard.classList.remove('success');
+            }
+
+            tableBody.innerHTML = '';
+            
+            Object.keys(user).forEach(key => {
+                if (key !== 'Name' && key !== 'Total') {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${key}</td><td>₹ ${user[key]}</td>`;
+                    tableBody.appendChild(tr);
+                }
+            });
+
+            resultArea.style.display = 'block';
+        }
+    }
+
+    function copyLink() {
+        const linkText = document.getElementById('personalLink').innerText;
+        copyToClipboard(linkText);
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('✅ Link Copy Ho Gaya!\n\nAb WhatsApp par paste kar sakte ho.');
+        }).catch(() => {
+            alert('Link ko manually copy karein: ' + text);
+        });
+    }
+</script>
+
+</body>
+</html>
